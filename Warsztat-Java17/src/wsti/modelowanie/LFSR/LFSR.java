@@ -1,5 +1,7 @@
 package wsti.modelowanie.LFSR;
 
+import javax.security.auth.Refreshable;
+
 public class LFSR
 {
 
@@ -65,36 +67,51 @@ public class LFSR
     {
         int max = znajdzNajwiekszaPotege(wielomian);
         int[][] mP = wielomianToMacierzPolaczen(wielomian);
-        int stan[][] = new int[max+1][max+1];
-        int wynik=0;
-        int k=max;
-        for (int i = 0; i <= max - 1; i++)
+        int maksymalnaIloscStanow = (2 ^ max + 1) - 1;
+        int stan[][] = new int[maksymalnaIloscStanow + 1][max + 1];
+
+        int  wynik = 0;
+        int k = 0;
+        for (int i = 0; i <=max; i++)
         {
             stan[0][i] = 0;
 
-            if (i == max - 1)
+            if (i == 0 )
             {
                 stan[0][i] = 1;
             }
+            
         }
 
-        for (int i = 0; i <= max - 1; i++)
+        for (int i = 0; i <= maksymalnaIloscStanow - 1; i++)
         {
-            for (int x = 0; x <= max-1; x++)
+            for (int x = 0; x <= max - 1; x++)
             {
-                wynik=0;
-                for (int y = 0; y <= max-1; y++)
+                wynik = 0;
+                System.out.println("POC i:" + i + " k:" + k + " x:" + x );
+                for (int y = 0; y <= max - 1; y++)
                 {
-                    //System.out.println(y+" poc "+k+" "+wynik);
-                    wynik=mP[x][y]*stan[i][k]+wynik;
-                    k--;
-                    //System.out.println(y+" kon "+wynik);
+                    if (wynik>0)
+                    {
+                        break;
+                    }
+                   
+                    wynik = (mP[y][x] * stan[i][k])+ wynik;
+                    
+                    System.out.println(" mP["+y+"]["+x+"]" + mP[y][x] + " * "
+                            + stan[i][k] + " stan["+i+"]["+k+"] = " + wynik);
+                    k++;
+
+                 
                 }
+                System.out.println("KON i:"+i+" k:"+k+" x:"+x);
                 
-                stan[i+1][x]=wynik;
-                k=max;
-                
+
+                stan[i + 1][x] = wynik;
+                k = 0;
+
             }
+            System.out.println("########## ");
         }
         return stan;
     }
@@ -125,6 +142,19 @@ public class LFSR
     public static void pokazMaksymalnyCykl(String wielomian)
     {
 
+        int[][] mK = MacierzPolaczenToMaksymalnyCykl(wielomian);
+        int max = znajdzNajwiekszaPotege(wielomian);
+        int maksymalnyMozliwyCykl = (2 ^ max + 1) - 1;
+        for (int x = 0; x <= maksymalnyMozliwyCykl - 1; x++)
+        {
+            for (int y = 0; y <= max - 1; y++)
+            {
+                System.out.print(mK[x][y]);
+
+            }
+            System.out.println();
+
+        }
     }
 
     /**
@@ -137,6 +167,7 @@ public class LFSR
         // System.out.println(znajdzNajwiekszaPotege(wielomian));
         // System.out.println(wielomianToMacierzPolaczen(wielomian));
         pokazMaceirzPolaczen(wielomian);
+        pokazMaksymalnyCykl(wielomian);
         MacierzPolaczenToMaksymalnyCykl(wielomian);
     }
 
