@@ -52,7 +52,7 @@ public abstract class Figura
 		figury[0] = new Kolo();
 		figury[1] = new Prostokat();
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i <= 1; i++)
 		{
 			System.out.println(figury[i].obliczPole());
 			
