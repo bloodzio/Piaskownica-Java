@@ -8,6 +8,13 @@ public class watki extends Thread
     {
         super(""+ ++threadCount);
         start();
+        if (countDown%2==0)
+        {
+        setPriority(MAX_PRIORITY);
+        }else
+        {
+            setPriority(MIN_PRIORITY);
+        }
     }
     
     public void run()
@@ -48,6 +55,7 @@ public class watki extends Thread
         for (int i = 1; i<=5; i++)
         {
             new watki();
+            
             System.out.println("Tworzenie watka #"+i);
         }
 
